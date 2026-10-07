@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+model User {
+  id            String   @id @default(cuid())
+  walletAddress String   @unique
+  score         Int      @default(0)
+  tokensEarned  Int      @default(0)
+  quizzes       Quiz[]
+}
+model Quiz {
+  id         String   @id @default(cuid())
+  topic      String
+  difficulty String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+}
